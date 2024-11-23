@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gestion_etudiant/screens/Components/input_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -150,11 +151,16 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                 espacement(),
                 ShadButton(
                   onPressed: () {
-                    if (niveau.compareTo('') == 0 &&
+                    if (_image != null &&
+                        niveau.compareTo('') == 0 &&
                         dateTime != null &&
                         nom.text.compareTo('') == 0 &&
                         prenom.text.compareTo('') == 0 &&
-                        numCin.text.compareTo('') == 0) {}
+                        numCin.text.compareTo('') == 0) {
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Veuillez remplir tous les champs");
+                    }
                   },
                   decoration: const ShadDecoration(
                       gradient: LinearGradient(colors: <Color>[
