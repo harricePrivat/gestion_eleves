@@ -40,6 +40,7 @@ dependencies:
   shadcn_ui: ^0.15.4
   google_fonts: ^6.2.1
   image_picker: ^1.1.2
+  fluttertoast: ^8.2.8
 
 dev_dependencies:
   flutter_test:

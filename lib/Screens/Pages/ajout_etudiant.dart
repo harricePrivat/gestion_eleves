@@ -16,7 +16,9 @@ class AjoutEtudiant extends StatefulWidget {
 }
 
 class _AjoutEtudiantState extends State<AjoutEtudiant> {
-  TextEditingController controller = TextEditingController();
+  TextEditingController nom = TextEditingController();
+  TextEditingController prenom = TextEditingController();
+  TextEditingController numCin = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
   @override
@@ -47,15 +49,19 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                input("Nom: *", "ex: NARIVELO", controller),
+                input("Nom: *", "ex: NARIVELO", nom, false),
                 espacement(),
-                input("Prénom: *", "ex: Brice Privat ", controller),
+                input("Prénom: *", "ex: Brice Privat ", prenom, false),
                 espacement(),
                 const SingleDatePicker(),
                 espacement(),
-                input("Numéro CIN:(facultatif)", "numero CIN", controller),
+                input("Numéro CIN:(facultatif)", "numero CIN", numCin, true),
                 espacement(),
-                const InputSelect(),
+                InputSelect(
+                  getValueSelect: (value) {
+                    print(value);
+                  },
+                ),
                 espacement(),
                 Text(
                   "Photo de l'étudiant: *",
@@ -132,13 +138,18 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                           ],
                         )),
                 espacement(),
-                const ShadButton(
-                  decoration: ShadDecoration(
+                ShadButton(
+                  onPressed: () {
+                    if (nom.text.compareTo('') == 0 &&
+                        prenom.text.compareTo('') == 0 &&
+                        numCin.text.compareTo('') == 0) {}
+                  },
+                  decoration: const ShadDecoration(
                       gradient: LinearGradient(colors: <Color>[
                     Color.fromRGBO(240, 46, 46, 0.8),
                     Color.fromRGBO(236, 107, 107, 0.898),
                   ])),
-                  child: Text(
+                  child: const Text(
                     "Ajouter l'etudiant",
                     style: TextStyle(color: Colors.white),
                   ),
@@ -157,8 +168,8 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
     );
   }
 
-  Widget input(
-      String label, String placeholder, TextEditingController control) {
+  Widget input(String label, String placeholder, TextEditingController control,
+      bool checkType) {
     final theme = Theme.of(context).textTheme;
 
     return Column(
@@ -172,7 +183,12 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
         const SizedBox(
           height: 4,
         ),
-        InputWidget(placeholder: placeholder, controller: control),
+        InputWidget(
+            placeholder: placeholder,
+            textInputType: checkType
+                ? const TextInputType.numberWithOptions()
+                : TextInputType.text,
+            controller: control),
       ],
     );
   }

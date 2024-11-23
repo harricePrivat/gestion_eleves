@@ -9,8 +9,10 @@ final fruits = {
   'm2': 'M2',
 };
 
+// ignore: must_be_immutable
 class InputSelect extends StatelessWidget {
-  const InputSelect({super.key});
+  ValueChanged<String?>? getValueSelect;
+  InputSelect({super.key, this.getValueSelect});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,9 @@ class InputSelect extends StatelessWidget {
               fruits[value]!,
               style: theme.displayMedium,
             ),
-            onChanged: print,
+            onChanged: getValueSelect,
+
+            // onChanged: print,
           ),
         )
       ],

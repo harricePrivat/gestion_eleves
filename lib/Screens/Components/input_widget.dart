@@ -7,9 +7,11 @@ class InputWidget extends StatefulWidget {
   Icon? icon;
   String placeholder;
   int? maxLines;
+  TextInputType? textInputType;
   InputWidget(
       {super.key,
       this.maxLines,
+      this.textInputType,
       required this.placeholder,
       required this.controller,
       this.icon});
@@ -23,6 +25,7 @@ class _InputWidgetState extends State<InputWidget> {
   @override
   Widget build(BuildContext context) {
     return ShadInput(
+      keyboardType: widget.textInputType,
       maxLines: widget.maxLines,
       cursorColor: Colors.black,
       controller: widget.controller,
