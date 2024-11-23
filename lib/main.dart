@@ -14,7 +14,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Voici URL: ${dotenv.env['URL']}");
     return ShadApp(
       theme: ShadThemeData(
           datePickerTheme: const ShadDatePickerTheme(
