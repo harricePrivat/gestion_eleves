@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
+// ignore: must_be_immutable
 class SingleDatePicker extends StatelessWidget {
-  const SingleDatePicker({super.key});
+  ValueChanged<DateTime?>? dateChanged;
+  SingleDatePicker({super.key, this.dateChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class SingleDatePicker extends StatelessWidget {
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),
           child: ShadDatePicker(
+            onChanged: dateChanged,
             foregroundColor: Colors.grey,
             placeholder: const Text(
               "Cliquez pour selectionner une date",
