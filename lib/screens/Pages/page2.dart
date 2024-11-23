@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_etudiant/Screens/Components/card_compte.dart';
+import 'package:gestion_etudiant/screens/Components/card_compte.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 class Page2 extends StatefulWidget {

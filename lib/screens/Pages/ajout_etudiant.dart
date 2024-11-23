@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:gestion_etudiant/Screens/Components/input_naissance.dart';
-import 'package:gestion_etudiant/Screens/Components/input_widget.dart';
-import 'package:gestion_etudiant/Screens/Components/select.dart';
+import 'package:gestion_etudiant/screens/Components/input_naissance.dart';
+import 'package:gestion_etudiant/screens/Components/input_widget.dart';
+import 'package:gestion_etudiant/screens/Components/select.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,7 +16,10 @@ class AjoutEtudiant extends StatefulWidget {
 }
 
 class _AjoutEtudiantState extends State<AjoutEtudiant> {
-  TextEditingController controller = TextEditingController();
+  TextEditingController nom = TextEditingController();
+  TextEditingController prenom = TextEditingController();
+  TextEditingController cin = TextEditingController();
+
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
   @override
@@ -47,13 +50,13 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                input("Nom: *", "ex: NARIVELO", controller),
+                input("Nom: *", "ex: NARIVELO", nom),
                 espacement(),
-                input("Prénom: *", "ex: Brice Privat ", controller),
+                input("Prénom: *", "ex: Brice Privat ", prenom),
                 espacement(),
                 const SingleDatePicker(),
                 espacement(),
-                input("Numéro CIN:(facultatif)", "numero CIN", controller),
+                input("Numéro CIN:(facultatif)", "numero CIN", cin),
                 espacement(),
                 const InputSelect(),
                 espacement(),
