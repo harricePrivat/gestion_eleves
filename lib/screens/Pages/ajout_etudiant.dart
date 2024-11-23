@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:gestion_etudiant/Screens/Components/input_naissance.dart';
-import 'package:gestion_etudiant/Screens/Components/input_widget.dart';
-import 'package:gestion_etudiant/Screens/Components/select.dart';
+import 'package:gestion_etudiant/screens/Components/input_naissance.dart';
+import 'package:gestion_etudiant/screens/Components/input_widget.dart';
+import 'package:gestion_etudiant/screens/Components/select.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +18,12 @@ class AjoutEtudiant extends StatefulWidget {
 class _AjoutEtudiantState extends State<AjoutEtudiant> {
   TextEditingController nom = TextEditingController();
   TextEditingController prenom = TextEditingController();
+<<<<<<< HEAD:lib/Screens/Pages/ajout_etudiant.dart
   TextEditingController numCin = TextEditingController();
+=======
+  TextEditingController cin = TextEditingController();
+
+>>>>>>> 58f13c3f20f6d0c84428bda76870785c6e65fc9e:lib/screens/Pages/ajout_etudiant.dart
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
   @override
@@ -49,6 +54,7 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+<<<<<<< HEAD:lib/Screens/Pages/ajout_etudiant.dart
                 input("Nom: *", "ex: NARIVELO", nom, false),
                 espacement(),
                 input("Prénom: *", "ex: Brice Privat ", prenom, false),
@@ -56,6 +62,15 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                 const SingleDatePicker(),
                 espacement(),
                 input("Numéro CIN:(facultatif)", "numero CIN", numCin, true),
+=======
+                input("Nom: *", "ex: NARIVELO", nom),
+                espacement(),
+                input("Prénom: *", "ex: Brice Privat ", prenom),
+                espacement(),
+                const SingleDatePicker(),
+                espacement(),
+                input("Numéro CIN:(facultatif)", "numero CIN", cin),
+>>>>>>> 58f13c3f20f6d0c84428bda76870785c6e65fc9e:lib/screens/Pages/ajout_etudiant.dart
                 espacement(),
                 InputSelect(
                   getValueSelect: (value) {
