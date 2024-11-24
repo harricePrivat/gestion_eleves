@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_etudiant/screens/Pages/details_student.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 // ignore: must_be_immutable
@@ -26,6 +27,16 @@ class _ListtileStudentState extends State<ListtileStudent> {
     final theme = Theme.of(context).textTheme;
 
     return ListTile(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailsStudent(
+                      pathImages: widget.pathImages,
+                      niveau: widget.niveau,
+                      prenom: widget.prenom,
+                    )));
+      },
       leading: Container(
         height: 60,
         width: 60,
@@ -38,7 +49,7 @@ class _ListtileStudentState extends State<ListtileStudent> {
         "${widget.nom} ${widget.prenom}",
         style: theme.titleMedium,
       ),
-      subtitle: Text(widget.cin),
+      subtitle: Text("CIN: ${widget.cin}"),
       trailing: const Icon(
         Icons.computer,
         color: Colors.red,

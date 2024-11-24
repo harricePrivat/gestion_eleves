@@ -22,7 +22,7 @@ class AppTheme {
           bodyMedium: GoogleFonts.lato(
               fontSize: 23, color: Colors.white, fontWeight: FontWeight.w500),
           titleMedium: GoogleFonts.lato(
-            fontSize: 23,
+            fontSize: 25,
             fontWeight: FontWeight.w400,
             color: const Color.fromARGB(255, 116, 115, 115),
           ),

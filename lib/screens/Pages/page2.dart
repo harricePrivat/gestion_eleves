@@ -15,16 +15,18 @@ class _Page2State extends State<Page2> {
     return ListView(
       children: const [
         Padding(
-          padding: EdgeInsets.all(16.00),
+          padding: const EdgeInsets.all(16.00),
           child: Column(
             children: [
-              CardCompte(),
-              SizedBox(
+              // CardCompte(
+              //   pathImages: '',
+              // ),
+              const SizedBox(
                 height: 16.00,
               ),
               //  Parametre(),
               // const SizedBox(height: 16.00,),
-              ShadButton(
+              const ShadButton(
                 decoration: ShadDecoration(
                     gradient: LinearGradient(colors: <Color>[
                   Color.fromRGBO(240, 46, 46, 0.8),
