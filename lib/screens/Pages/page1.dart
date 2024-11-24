@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_etudiant/screens/Pages/accueil_list.dart';
 import 'package:gestion_etudiant/screens/Pages/ajout_etudiant.dart';
 import '../Components/fonctionnalites.dart';
 
@@ -16,6 +17,12 @@ class _Page1State extends State<Page1> {
     'Ajout des etudiants',
     'Gestion des machines'
   ];
+  List<Widget> fonctionnalites = [
+    const AjoutEtudiant(),
+    const AccueilList(),
+    const AjoutEtudiant(),
+    const AjoutEtudiant(),
+  ];
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -26,10 +33,8 @@ class _Page1State extends State<Page1> {
           return GestureDetector(
             child: Fonctionnalites(title: title[i]),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AjoutEtudiant()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => fonctionnalites[i]));
             },
           );
         });
