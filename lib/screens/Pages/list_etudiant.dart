@@ -23,6 +23,7 @@ class _ListEtudiantState extends State<ListEtudiant> {
 
   bool loading = false;
   dynamic body;
+  dynamic recherche;
   Future<void> getAllStudent(String niveau) async {
     setState(() {
       loading = true;
@@ -33,6 +34,7 @@ class _ListEtudiantState extends State<ListEtudiant> {
       final data = jsonDecode(response.body);
       setState(() {
         body = data;
+        recherche = body;
         loading = false;
       });
     } else {
@@ -46,6 +48,24 @@ class _ListEtudiantState extends State<ListEtudiant> {
   void initState() {
     super.initState();
     getAllStudent(widget.niveau);
+  }
+
+  void rechercheNom() {
+    setState(() {
+      // Si le champ de recherche est vide, on affiche tous les éléments
+      if (controller.text.isEmpty) {
+        recherche = List.from(body); // Copie la liste originale
+      } else {
+        recherche = body.where((etudiant) {
+          String nom = etudiant['nom'].toLowerCase();
+          String prenom = etudiant['prenom'].toLowerCase();
+          String critere = controller.text.toLowerCase();
+
+          // Vérifie si le nom ou le prénom contient le texte recherché
+          return nom.contains(critere) || prenom.contains(critere);
+        }).toList(); // Convertit l'itérable en une liste
+      }
+    });
   }
 
   @override
@@ -69,16 +89,16 @@ class _ListEtudiantState extends State<ListEtudiant> {
         ),
         body: Stack(
           children: [
-            ((body is List && body.isNotEmpty)
+            ((recherche is List && recherche.isNotEmpty)
                 ? ListView.builder(
-                    itemCount: body.length,
+                    itemCount: recherche.length,
                     itemBuilder: (context, i) {
                       return ListtileStudent(
-                        cin: body[i]['numero_cin'].toString(),
-                        nom: body[i]['nom'],
-                        prenom: body[i]['prenom'],
-                        niveau: body[i]['niveau'],
-                        pathImages: body[i]['path_images'],
+                        cin: recherche[i]['numero_cin'].toString(),
+                        nom: recherche[i]['nom'],
+                        prenom: recherche[i]['prenom'],
+                        niveau: recherche[i]['niveau'],
+                        pathImages: recherche[i]['path_images'],
                       );
                     },
                   )
@@ -87,7 +107,10 @@ class _ListEtudiantState extends State<ListEtudiant> {
                     padding: const EdgeInsets.all(16.00),
                     child: Text(
                       textAlign: TextAlign.center,
-                      "Aucune etudiants inscrits",
+                      // "Aucune etudiants inscrits",
+                      controller.text.isEmpty
+                          ? "Aucune etudiants inscrits"
+                          : "Etudiants introuvables",
                       style: theme.displayLarge,
                     ),
                   ))),
@@ -123,6 +146,11 @@ class _ListEtudiantState extends State<ListEtudiant> {
                     left: 55,
                     right: 20, // Contraindre la largeur
                     child: InputWidget(
+                        valueChanged: (value) {
+                          setState(() {
+                            rechercheNom();
+                          });
+                        },
                         placeholder: "Recherche par le nom",
                         controller: controller))
                 : const SizedBox(),
