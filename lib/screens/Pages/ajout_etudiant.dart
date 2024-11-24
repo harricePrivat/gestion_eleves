@@ -155,8 +155,7 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                         niveau.compareTo('') == 0 &&
                         dateTime != null &&
                         nom.text.compareTo('') == 0 &&
-                        prenom.text.compareTo('') == 0 &&
-                        numCin.text.compareTo('') == 0) {
+                        prenom.text.compareTo('') == 0) {
                     } else {
                       Fluttertoast.showToast(
                           msg: "Veuillez remplir tous les champs");
