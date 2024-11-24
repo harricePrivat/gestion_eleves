@@ -12,11 +12,18 @@ class AccueilList extends StatefulWidget {
 
 class _AccueilListState extends State<AccueilList> {
   List<String> title = [
-    'L1',
-    'L2',
-    'L3',
-    'M1',
-    'M2',
+    'Licence 1',
+    'Licence 2',
+    'Licence 3',
+    'Master 1',
+    'Master 2',
+  ];
+  List<String> niveau = [
+    'l1',
+    'l2',
+    'l3',
+    'm1',
+    'm2',
   ];
 
   @override
@@ -50,8 +57,7 @@ class _AccueilListState extends State<AccueilList> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ListEtudiant(
-                                title: title[i],
-                              )));
+                              title: title[i], niveau: niveau[i])));
                 },
               );
             }));

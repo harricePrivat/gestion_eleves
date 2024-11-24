@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static final appTheme = ThemeData(
-      primaryColor: const Color.fromRGBO(255,0,0,0),
+      primaryColor: const Color.fromRGBO(255, 0, 0, 0),
       scaffoldBackgroundColor: Colors.white,
       brightness: Brightness.light,
       textTheme: TextTheme(
@@ -21,6 +21,11 @@ class AppTheme {
               fontSize: 30, color: Colors.white, fontWeight: FontWeight.w600),
           bodyMedium: GoogleFonts.lato(
               fontSize: 23, color: Colors.white, fontWeight: FontWeight.w500),
+          titleMedium: GoogleFonts.lato(
+            fontSize: 23,
+            fontWeight: FontWeight.w400,
+            color: const Color.fromARGB(255, 116, 115, 115),
+          ),
           displayMedium: GoogleFonts.lato(
             fontSize: 16,
             fontWeight: FontWeight.w400,
