@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gestion_etudiant/screens/Components/input_widget.dart';
 import 'package:gestion_etudiant/screens/Components/list_tile_student.dart';
 import 'package:gestion_etudiant/screens/Components/loading.dart';
 import 'package:gestion_etudiant/services/send_data.dart';
@@ -17,6 +18,9 @@ class ListEtudiant extends StatefulWidget {
 }
 
 class _ListEtudiantState extends State<ListEtudiant> {
+  bool _showTextField = false;
+  TextEditingController controller = TextEditingController();
+
   bool loading = false;
   dynamic body;
   Future<void> getAllStudent(String niveau) async {
@@ -87,6 +91,41 @@ class _ListEtudiantState extends State<ListEtudiant> {
                       style: theme.displayLarge,
                     ),
                   ))),
+            ((body is List && body.isNotEmpty))
+                ? Positioned(
+                    top: 10,
+                    left: 10,
+                    child: SizedBox(
+                      height: 45,
+                      width: 45,
+                      child: Card(
+                        child: IconButton(
+                          icon: const Icon(Icons.search),
+                          onPressed: () {
+                            setState(() {
+                              _showTextField =
+                                  !_showTextField; // Toggle visibility
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
+            // TextField avec animation de glissement
+            ((body is List && body.isNotEmpty))
+                ? AnimatedPositioned(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    top: _showTextField
+                        ? 15
+                        : -100, // Change la position verticale
+                    left: 55,
+                    right: 20, // Contraindre la largeur
+                    child: InputWidget(
+                        placeholder: "Recherche par le nom",
+                        controller: controller))
+                : const SizedBox(),
             if (loading) const Loading(),
           ],
         ));
