@@ -10,6 +10,8 @@ class CardPc extends StatefulWidget {
 class _CardPcState extends State<CardPc> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
+
     return Container(
         width: MediaQuery.of(context).size.width,
         height: 150,
@@ -20,12 +22,19 @@ class _CardPcState extends State<CardPc> {
               Color.fromRGBO(240, 46, 46, 0.8),
               Color.fromRGBO(236, 107, 107, 0.898),
             ])),
-        child: const Padding(
-            padding: EdgeInsets.all(16.00),
+        child: Padding(
+            padding: const EdgeInsets.all(16.00),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [],
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Text(
+                    "PC non Panasonic",
+                    style: theme.bodyLarge,
+                  ),
+                )
+              ],
             )));
   }
 }

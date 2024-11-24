@@ -20,11 +20,11 @@ class _Loading extends State<Loading> {
             color: Colors.black.withOpacity(0.3),
           ),
         ),
-        ModalBarrier(
+        const ModalBarrier(
           dismissible: false,
           color: Colors.transparent,
         ),
-        Center(
+        const Center(
           child: CircularProgressIndicator(
             color: Colors.white,
           ),
