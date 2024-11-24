@@ -70,7 +70,7 @@ class _ListEtudiantState extends State<ListEtudiant> {
                     itemCount: body.length,
                     itemBuilder: (context, i) {
                       return ListtileStudent(
-                        cin: body[i]['numero_cin'],
+                        cin: body[i]['numero_cin'].toString(),
                         nom: body[i]['nom'],
                         prenom: body[i]['prenom'],
                         niveau: body[i]['niveau'],

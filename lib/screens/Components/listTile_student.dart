@@ -38,7 +38,7 @@ class _ListtileStudentState extends State<ListtileStudent> {
         "${widget.nom} ${widget.prenom}",
         style: theme.titleMedium,
       ),
-      subtitle: const Text(""),
+      subtitle: Text(widget.cin),
       trailing: const Icon(
         Icons.computer,
         color: Colors.red,
