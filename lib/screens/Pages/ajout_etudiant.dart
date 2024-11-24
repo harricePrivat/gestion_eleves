@@ -152,24 +152,31 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                         )),
                 espacement(),
                 ShadButton(
-                  onPressed: () {
+                  onPressed: () async {
                     numCin.text.compareTo('') == 0 ? numCin.text = 'no' : {};
                     if (_image != null &&
-                        niveau.compareTo('') == 0 &&
+                        niveau.compareTo('') != 0 &&
                         dateTime != null &&
                         nom.text.compareTo('') != 0 &&
                         prenom.text.compareTo('') != 0) {
                       FormData formData = FormData.fromMap({
-                        "nom": nom.text,
-                        "prenom": prenom.text,
+                        "nom": nom.text.trim(),
+                        "prenom": prenom.text.trim(),
                         "naissance": dateTime.toString(),
+                        'cin': numCin.text.trim(),
                         "niveau": niveau,
-                        "image": MultipartFile.fromFile(_image!.path,
+                        "image": await MultipartFile.fromFile(_image!.path,
                             filename: _image!.name)
                       });
 
-                      Dio().post("${dotenv.env['URL']}/create-user",
+                      final response = await Dio().post(
+                          "${dotenv.env['URL']}/create-user",
                           data: formData);
+                      if (response.statusCode == 200) {
+                        Fluttertoast.showToast(msg: "Etudiant bien ajouter");
+                      } else {
+                        Fluttertoast.showToast(msg: "Etudiant NON ajouter");
+                      }
                     } else {
                       Fluttertoast.showToast(
                           msg: "Veuillez remplir tous les champs");
