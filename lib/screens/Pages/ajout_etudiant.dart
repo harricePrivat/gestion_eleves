@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gestion_etudiant/screens/Components/input_widget.dart';
 import 'package:image_picker/image_picker.dart';
@@ -151,11 +153,23 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                 espacement(),
                 ShadButton(
                   onPressed: () {
+                    numCin.text.compareTo('') == 0 ? numCin.text = 'no' : {};
                     if (_image != null &&
                         niveau.compareTo('') == 0 &&
                         dateTime != null &&
-                        nom.text.compareTo('') == 0 &&
-                        prenom.text.compareTo('') == 0) {
+                        nom.text.compareTo('') != 0 &&
+                        prenom.text.compareTo('') != 0) {
+                      FormData formData = FormData.fromMap({
+                        "nom": nom.text,
+                        "prenom": prenom.text,
+                        "naissance": dateTime.toString(),
+                        "niveau": niveau,
+                        "image": MultipartFile.fromFile(_image!.path,
+                            filename: _image!.name)
+                      });
+
+                      Dio().post("${dotenv.env['URL']}/create-user",
+                          data: formData);
                     } else {
                       Fluttertoast.showToast(
                           msg: "Veuillez remplir tous les champs");
