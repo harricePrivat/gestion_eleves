@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 class QrcodePresence extends StatefulWidget {
   const QrcodePresence({super.key});
@@ -9,7 +9,7 @@ class QrcodePresence extends StatefulWidget {
 }
 
 class _QrcodePresenceState extends State<QrcodePresence> {
-  QRViewController? controller;
+  MobileScanner? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: "qr");
   @override
   Widget build(BuildContext context) {
@@ -31,17 +31,24 @@ class _QrcodePresenceState extends State<QrcodePresence> {
         backgroundColor: const Color.fromARGB(255, 247, 101, 91),
       ),
       body: Center(
+          child: SizedBox(
+        height: 500,
+        width: MediaQuery.of(context).size.width - 20,
         child: Expanded(
             flex: 5,
-            child: QRView(key: qrKey, onQRViewCreated: onQRViewCreated)),
-      ),
+            child: MobileScanner(
+              onDetect: (barCode) {
+                print(barCode);
+              },
+            )),
+      )),
     );
   }
 
-  void onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      print(scanData.code);
-    });
-  }
+  // void onQRViewCreated(QRViewController controller) {
+  //   this.controller = controller;
+  //   controller.scannedDataStream.listen((scanData) {
+  //     print(scanData.code);
+  //   });
+  // }
 }
