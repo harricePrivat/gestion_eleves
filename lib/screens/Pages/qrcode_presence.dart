@@ -32,7 +32,7 @@ class _QrcodePresenceState extends State<QrcodePresence> {
       ),
       body: Center(
           child: SizedBox(
-        height: 500,
+        height: 400,
         width: MediaQuery.of(context).size.width - 20,
         child: Expanded(
             flex: 5,
@@ -68,11 +68,4 @@ class _QrcodePresenceState extends State<QrcodePresence> {
       )),
     );
   }
-
-  // void onQRViewCreated(QRViewController controller) {
-  //   this.controller = controller;
-  //   controller.scannedDataStream.listen((scanData) {
-  //     print(scanData.code);
-  //   });
-  // }
 }
