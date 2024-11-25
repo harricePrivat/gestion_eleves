@@ -38,7 +38,31 @@ class _QrcodePresenceState extends State<QrcodePresence> {
             flex: 5,
             child: MobileScanner(
               onDetect: (barCode) {
-                print(barCode);
+                final raw = barCode.raw;
+                if (raw != null && raw is Map) {
+                  // Vérifie si 'data' existe et contient des éléments
+                  final dataList = raw['data'];
+                  if (dataList != null &&
+                      dataList is List &&
+                      dataList.isNotEmpty) {
+                    // Récupère le premier élément de la liste
+                    final firstData = dataList[0];
+
+                    // Récupère la valeur de 'displayValue'
+                    final displayValue = firstData['displayValue'];
+
+                    // Affiche la valeur
+                    if (displayValue != null) {
+                      debugPrint('Display Value: $displayValue');
+                    } else {
+                      debugPrint('Aucune displayValue détectée.');
+                    }
+                  } else {
+                    debugPrint('La liste de données est vide ou invalide.');
+                  }
+                } else {
+                  debugPrint('L\'objet raw est null ou n\'est pas un Map.');
+                }
               },
             )),
       )),
