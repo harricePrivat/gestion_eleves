@@ -159,9 +159,9 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                       espacement(),
                       ShadButton(
                         onPressed: () async {
-                          setState(() {
-                            loading = true;
-                          });
+                          // setState(() {
+                          //   loading = true;
+                          // });
                           numCin.text.compareTo('') == 0
                               ? numCin.text = 'no'
                               : {};
@@ -189,15 +189,15 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                               prenom.clear();
                               numCin.clear();
                               _image = null;
-                              setState(() {
-                                loading = false;
-                              });
+                              // setState(() {
+                              //   loading = false;
+                              // });
                               Fluttertoast.showToast(
                                   msg: "Etudiant bien ajouter");
                             } else {
-                              setState(() {
-                                loading = false;
-                              });
+                              // setState(() {
+                              //   loading = false;
+                              // });
                               Fluttertoast.showToast(
                                   msg:
                                       "Etudiant NON ajouter,erreur de connexion");
@@ -206,9 +206,9 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                             Fluttertoast.showToast(
                                 msg: "Veuillez remplir tous les champs");
                           }
-                          setState(() {
-                            loading = false;
-                          });
+                          // setState(() {
+                          //   loading = false;
+                          // });
                         },
                         decoration: const ShadDecoration(
                             gradient: LinearGradient(colors: <Color>[
