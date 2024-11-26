@@ -45,6 +45,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   dio: ^5.7.0
   mobile_scanner: ^6.0.2
+  equatable: ^2.0.7
   #qr_code_scanner: ^1.0.1
   
 dev_dependencies:

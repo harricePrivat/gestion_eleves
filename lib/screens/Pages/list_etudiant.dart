@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gestion_etudiant/bloc/fetch/fectch_bloc.dart';
 import 'package:gestion_etudiant/screens/Components/input_widget.dart';
 import 'package:gestion_etudiant/screens/Components/list_tile_student.dart';
 import 'package:gestion_etudiant/screens/Components/loading.dart';
@@ -21,33 +23,36 @@ class _ListEtudiantState extends State<ListEtudiant> {
   bool _showTextField = false;
   TextEditingController controller = TextEditingController();
 
-  bool loading = false;
+  //bool loading = false;
   dynamic body;
   dynamic recherche;
-  Future<void> getAllStudent(String niveau) async {
-    setState(() {
-      loading = true;
-    });
-    final response = await SendData()
-        .goPost("${dotenv.env['URL']}/get-student", {"niveau": niveau});
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      setState(() {
-        body = data;
-        recherche = body;
-        loading = false;
-      });
-    } else {
-      setState(() {
-        loading = false;
-      });
-    }
-  }
+  // Future<void> getAllStudent(String niveau) async {
+  //   // setState(() {
+  //   //   loading = true;
+  //   // });
+  //   final response = await SendData()
+  //       .goPost("${dotenv.env['URL']}/get-student", {"niveau": niveau});
+  //   if (response.statusCode == 200) {
+  //     final data = jsonDecode(response.body);
+  //     // setState(() {
+  //     //   body = data;
+  //     //   recherche = body;
+  //     //   loading = false;
+  //     // });
+  //   } else {
+  //     // setState(() {
+  //     //   loading = false;
+  //     // });
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
-    getAllStudent(widget.niveau);
+    FectchBloc bloc = FectchBloc();
+    bloc.add(FetchData(
+        "${dotenv.env['URL']}/get-student", {"niveau": widget.niveau}));
+    //  getAllStudent(widget.niveau);
   }
 
   void rechercheNom() {
@@ -87,75 +92,99 @@ class _ListEtudiantState extends State<ListEtudiant> {
           ),
           backgroundColor: const Color.fromARGB(255, 247, 101, 91),
         ),
-        body: Stack(
-          children: [
-            ((recherche is List && recherche.isNotEmpty)
-                ? ListView.builder(
-                    itemCount: recherche.length,
-                    itemBuilder: (context, i) {
-                      return ListtileStudent(
-                        cin: recherche[i]['numero_cin'].toString(),
-                        nom: recherche[i]['nom'],
-                        prenom: recherche[i]['prenom'],
-                        niveau: recherche[i]['niveau'],
-                        pathImages: recherche[i]['path_images'],
-                      );
-                    },
-                  )
-                : Center(
-                    child: Padding(
-                    padding: const EdgeInsets.all(16.00),
-                    child: Text(
-                      textAlign: TextAlign.center,
-                      // "Aucune etudiants inscrits",
-                      controller.text.isEmpty
-                          ? "Aucune etudiants inscrits"
-                          : "Etudiants introuvables",
-                      style: theme.displayLarge,
-                    ),
-                  ))),
-            ((body is List && body.isNotEmpty))
-                ? Positioned(
-                    top: 10,
-                    left: 10,
-                    child: SizedBox(
-                      height: 45,
-                      width: 45,
-                      child: Card(
-                        child: IconButton(
-                          icon: const Icon(Icons.search),
-                          onPressed: () {
-                            setState(() {
-                              _showTextField =
-                                  !_showTextField; // Toggle visibility
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
-            // TextField avec animation de glissement
-            ((body is List && body.isNotEmpty))
-                ? AnimatedPositioned(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                    top: _showTextField
-                        ? 15
-                        : -100, // Change la position verticale
-                    left: 55,
-                    right: 20, // Contraindre la largeur
-                    child: InputWidget(
-                        valueChanged: (value) {
-                          setState(() {
-                            rechercheNom();
-                          });
-                        },
-                        placeholder: "Recherche par le nom",
-                        controller: controller))
-                : const SizedBox(),
-            if (loading) const Loading(),
-          ],
-        ));
+        body: BlocBuilder<FectchBloc, FectchState>(builder: (context, state) {
+          if (state is FetchDataLoading) {
+            return const Loading();
+          } else if (state is FetchDataLoaded) {
+            Center(
+                child: Padding(
+              padding: const EdgeInsets.all(16.00),
+              child: Text(
+                textAlign: TextAlign.center,
+                // "Aucune etudiants inscrits",
+                controller.text.isEmpty
+                    ? "Aucune etudiants inscrits"
+                    : "Etudiants introuvables",
+                style: theme.displayLarge,
+              ),
+            ));
+          } else {
+            return const Center(
+              child: Text("Etudiants introuvables"),
+            );
+          }
+          return const Text("Etudiants introuvables");
+        })
+        //  Stack(
+        //   children: [
+        //     ((recherche is List && recherche.isNotEmpty)
+        //         ? ListView.builder(
+        //             itemCount: recherche.length,
+        //             itemBuilder: (context, i) {
+        //               return ListtileStudent(
+        //                 cin: recherche[i]['numero_cin'].toString(),
+        //                 nom: recherche[i]['nom'],
+        //                 prenom: recherche[i]['prenom'],
+        //                 niveau: recherche[i]['niveau'],
+        //                 pathImages: recherche[i]['path_images'],
+        //               );
+        //             },
+        //           )
+        //         : Center(
+        //             child: Padding(
+        //             padding: const EdgeInsets.all(16.00),
+        //             child: Text(
+        //               textAlign: TextAlign.center,
+        //               // "Aucune etudiants inscrits",
+        //               controller.text.isEmpty
+        //                   ? "Aucune etudiants inscrits"
+        //                   : "Etudiants introuvables",
+        //               style: theme.displayLarge,
+        //             ),
+        //           ))),
+        //     ((body is List && body.isNotEmpty))
+        //         ? Positioned(
+        //             top: 10,
+        //             left: 10,
+        //             child: SizedBox(
+        //               height: 45,
+        //               width: 45,
+        //               child: Card(
+        //                 child: IconButton(
+        //                   icon: const Icon(Icons.search),
+        //                   onPressed: () {
+        //                     setState(() {
+        //                       _showTextField =
+        //                           !_showTextField; // Toggle visibility
+        //                     });
+        //                   },
+        //                 ),
+        //               ),
+        //             ),
+        //           )
+        //         : const SizedBox(),
+        //     // TextField avec animation de glissement
+        //     ((body is List && body.isNotEmpty))
+        //         ? AnimatedPositioned(
+        //             duration: const Duration(milliseconds: 300),
+        //             curve: Curves.easeInOut,
+        //             top: _showTextField
+        //                 ? 15
+        //                 : -100, // Change la position verticale
+        //             left: 55,
+        //             right: 20, // Contraindre la largeur
+        //             child: InputWidget(
+        //                 valueChanged: (value) {
+        //                   setState(() {
+        //                     rechercheNom();
+        //                   });
+        //                 },
+        //                 placeholder: "Recherche par le nom",
+        //                 controller: controller))
+        //         : const SizedBox(),
+        //     //  if (loading) const Loading(),
+        //   ],
+        // )
+        );
   }
 }
