@@ -53,6 +53,8 @@ class _DetailsStudentState extends State<DetailsStudent> {
                     height: 16,
                   ),
                   CardCompte(
+                    niveau: widget.niveau.toUpperCase(),
+                    nom: widget.prenom,
                     pathImages: widget.pathImages,
                   ),
                   const SizedBox(

@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 // ignore: must_be_immutable
 class CardCompte extends StatefulWidget {
   String pathImages;
-  CardCompte({super.key, required this.pathImages});
+  String nom;
+  String niveau;
+  CardCompte(
+      {super.key,
+      required this.pathImages,
+      required this.nom,
+      required this.niveau});
 
   @override
   State<CardCompte> createState() => _CardCompteState();
@@ -30,25 +37,23 @@ class _CardCompteState extends State<CardCompte> {
               children: [
                 Row(
                   children: [
-                    ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Image.network(
-                          widget.pathImages,
-                          height: 100,
-                          width: 100,
-                        )),
-                    const Padding(
-                      padding: EdgeInsets.all(16.00),
+                    ShadAvatar(
+                      widget.pathImages,
+                      size: const Size(90, 90),
+                    ),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.all(8.00),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Nom: Brice Privat"),
-                          Text("Statut: Etudiant"),
-                          Text("Niveau: L3")
+                          Text("Nom: ${widget.nom}"),
+                          const Text("Statut: Etudiant"),
+                          Text("Niveau: ${widget.niveau}")
                         ],
                       ),
-                    )
+                    ))
                   ],
                 )
               ],
