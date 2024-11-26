@@ -31,40 +31,54 @@ class _QrcodePresenceState extends State<QrcodePresence> {
         backgroundColor: const Color.fromARGB(255, 247, 101, 91),
       ),
       body: Center(
-          child: SizedBox(
-        height: 400,
-        width: MediaQuery.of(context).size.width - 20,
-        child: Expanded(
-            flex: 5,
-            child: MobileScanner(
-              onDetect: (barCode) {
-                final raw = barCode.raw;
-                if (raw != null && raw is Map) {
-                  // Vérifie si 'data' existe et contient des éléments
-                  final dataList = raw['data'];
-                  if (dataList != null &&
-                      dataList is List &&
-                      dataList.isNotEmpty) {
-                    // Récupère le premier élément de la liste
-                    final firstData = dataList[0];
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+              overflow: TextOverflow.visible,
+              textAlign: TextAlign.center,
+              "Scanner ici le code QR de l'etudiant:",
+              style: theme.titleMedium),
+          const SizedBox(
+            height: 16,
+          ),
+          SizedBox(
+            height: 400,
+            width: MediaQuery.of(context).size.width - 32,
+            child: Expanded(
+                flex: 5,
+                child: MobileScanner(
+                  onDetect: (barCode) {
+                    final raw = barCode.raw;
+                    if (raw != null && raw is Map) {
+                      // Vérifie si 'data' existe et contient des éléments
+                      final dataList = raw['data'];
+                      if (dataList != null &&
+                          dataList is List &&
+                          dataList.isNotEmpty) {
+                        // Récupère le premier élément de la liste
+                        final firstData = dataList[0];
 
-                    // Récupère la valeur de 'displayValue'
-                    final displayValue = firstData['displayValue'];
+                        // Récupère la valeur de 'displayValue'
+                        final displayValue = firstData['displayValue'];
 
-                    // Affiche la valeur
-                    if (displayValue != null) {
-                      debugPrint('Display Value: $displayValue');
+                        // Affiche la valeur
+                        if (displayValue != null) {
+                          debugPrint('Display Value: $displayValue');
+                        } else {
+                          debugPrint('Aucune displayValue détectée.');
+                        }
+                      } else {
+                        debugPrint('La liste de données est vide ou invalide.');
+                      }
                     } else {
-                      debugPrint('Aucune displayValue détectée.');
+                      debugPrint('L\'objet raw est null ou n\'est pas un Map.');
                     }
-                  } else {
-                    debugPrint('La liste de données est vide ou invalide.');
-                  }
-                } else {
-                  debugPrint('L\'objet raw est null ou n\'est pas un Map.');
-                }
-              },
-            )),
+                  },
+                )),
+          )
+        ],
       )),
     );
   }
