@@ -9,77 +9,96 @@ class QrcodePresence extends StatefulWidget {
 }
 
 class _QrcodePresenceState extends State<QrcodePresence> {
+  bool showValue = false;
+  dynamic displayValue;
   MobileScanner? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: "qr");
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            )),
-        title: Text(
-          "Présence",
-          style: theme.bodyMedium,
-        ),
-        backgroundColor: const Color.fromARGB(255, 247, 101, 91),
-      ),
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-              overflow: TextOverflow.visible,
-              textAlign: TextAlign.center,
-              "Scanner ici le code QR de l'etudiant:",
-              style: theme.titleMedium),
-          const SizedBox(
-            height: 16,
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              )),
+          title: Text(
+            "Présence",
+            style: theme.bodyMedium,
           ),
-          SizedBox(
-            height: 400,
-            width: MediaQuery.of(context).size.width - 32,
-            child: Expanded(
-                flex: 5,
-                child: MobileScanner(
-                  onDetect: (barCode) {
-                    final raw = barCode.raw;
-                    if (raw != null && raw is Map) {
-                      // Vérifie si 'data' existe et contient des éléments
-                      final dataList = raw['data'];
-                      if (dataList != null &&
-                          dataList is List &&
-                          dataList.isNotEmpty) {
-                        // Récupère le premier élément de la liste
-                        final firstData = dataList[0];
+          backgroundColor: const Color.fromARGB(255, 247, 101, 91),
+        ),
+        body: ListView(
+          children: [
+            Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                    overflow: TextOverflow.visible,
+                    textAlign: TextAlign.center,
+                    "Scanner ici le code QR de l'etudiant:",
+                    style: theme.titleMedium),
+                const SizedBox(
+                  height: 16,
+                ),
+                SizedBox(
+                  height: 400,
+                  width: MediaQuery.of(context).size.width - 32,
+                  child: Expanded(
+                      flex: 5,
+                      child: MobileScanner(
+                        onDetect: (barCode) {
+                          final raw = barCode.raw;
+                          if (raw != null && raw is Map) {
+                            // Vérifie si 'data' existe et contient des éléments
+                            final dataList = raw['data'];
+                            if (dataList != null &&
+                                dataList is List &&
+                                dataList.isNotEmpty) {
+                              // Récupère le premier élément de la liste
+                              final firstData = dataList[0];
 
-                        // Récupère la valeur de 'displayValue'
-                        final displayValue = firstData['displayValue'];
+                              // Récupère la valeur de 'displayValue'
+                              setState(() {
+                                displayValue = firstData['displayValue'];
+                                showValue = true;
+                              });
 
-                        // Affiche la valeur
-                        if (displayValue != null) {
-                          debugPrint('Display Value: $displayValue');
-                        } else {
-                          debugPrint('Aucune displayValue détectée.');
-                        }
-                      } else {
-                        debugPrint('La liste de données est vide ou invalide.');
-                      }
-                    } else {
-                      debugPrint('L\'objet raw est null ou n\'est pas un Map.');
-                    }
-                  },
-                )),
-          )
-        ],
-      )),
-    );
+                              // Affiche la valeur
+                              if (displayValue != null) {
+                                debugPrint('Display Value: $displayValue');
+                              } else {
+                                debugPrint('Aucune displayValue détectée.');
+                              }
+                            } else {
+                              debugPrint(
+                                  'La liste de données est vide ou invalide.');
+                            }
+                          } else {
+                            debugPrint(
+                                'L\'objet raw est null ou n\'est pas un Map.');
+                          }
+                        },
+                      )),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                showValue
+                    ? Text(
+                        displayValue,
+                        style: theme.displayMedium,
+                      )
+                    : const SizedBox()
+              ],
+            )),
+          ],
+        ));
   }
 }
