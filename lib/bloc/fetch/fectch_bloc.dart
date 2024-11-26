@@ -14,27 +14,15 @@ class FectchBloc extends Bloc<FectchEvent, FectchState> {
         final response = await SendData().goPost(event.url, event.object);
         if (response.statusCode == 200) {
           final object = jsonDecode(response.body);
-          emit(FetchDataLoaded(object));
+          if (object is List && object.isNotEmpty) {
+            emit(FetchDataLoaded(object));
+          } else {
+            emit(FetchDataLoadedBlank());
+          }
         }
       } catch (e) {
         emit(FetchDataError("Impossible"));
       }
     });
   }
-  // FectchBloc() : super(FectchInitial());
-
-  // Stream<FectchState> mapEventToState(FectchEvent event) async* {
-  //   if (event is FetchData) {
-  //     yield FetchDataLoading();
-  //     try {
-  //       final response = await SendData().goPost(event.url, event.object);
-  //       if (response.statusCode == 200) {
-  //         final object = jsonDecode(response.body);
-  //         yield FetchDataLoaded(object);
-  //       }
-  //     } catch (e) {
-  //       yield FetchDataError("Impossible");
-  //     }
-  //   }
-  // }
 }

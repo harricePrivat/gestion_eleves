@@ -20,6 +20,8 @@ final class FetchDataLoaded extends FectchState {
 
 final class FetchDataLoading extends FectchState {}
 
+final class FetchDataLoadedBlank extends FectchState {}
+
 // ignore: must_be_immutable
 final class FetchDataError extends FectchState {
   String message;
