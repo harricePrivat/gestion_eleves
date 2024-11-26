@@ -96,15 +96,16 @@ class _ListEtudiantState extends State<ListEtudiant> {
           if (state is FetchDataLoading) {
             return const Loading();
           } else if (state is FetchDataLoaded) {
+            print(state.object);
             Center(
                 child: Padding(
               padding: const EdgeInsets.all(16.00),
               child: Text(
                 textAlign: TextAlign.center,
-                // "Aucune etudiants inscrits",
-                controller.text.isEmpty
-                    ? "Aucune etudiants inscrits"
-                    : "Etudiants introuvables",
+                "Aucune etudiants inscrits",
+                // controller.text.isEmpty
+                //     ? "Aucune etudiants inscrits"
+                //     : "Etudiants introuvables",
                 style: theme.displayLarge,
               ),
             ));
