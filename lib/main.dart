@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gestion_etudiant/bloc/addStudent/add_student_bloc.dart';
 import 'package:gestion_etudiant/bloc/fetch/fectch_bloc.dart';
 import 'package:gestion_etudiant/screens/theme.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -8,8 +9,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() {
   dotenv.load(fileName: '.env');
-  runApp(BlocProvider(
-    create: (context) => FectchBloc(),
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (context) => AddStudentBloc(),
+      ),
+      BlocProvider(
+        create: (context) => FectchBloc(),
+      )
+    ],
     child: const MyApp(),
   ));
 }

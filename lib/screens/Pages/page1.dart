@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_etudiant/screens/Pages/accueil_list.dart';
 import 'package:gestion_etudiant/screens/Pages/ajout_etudiant.dart';
+import 'package:gestion_etudiant/screens/Pages/ajout_etudiant_test.dart';
 import 'package:gestion_etudiant/screens/Pages/qrcode_presence.dart';
 import '../Components/fonctionnalites.dart';
 
@@ -22,7 +23,7 @@ class _Page1State extends State<Page1> {
     const QrcodePresence(),
     const AccueilList(),
     const AjoutEtudiant(),
-    const AjoutEtudiant(),
+    const AjoutEtudiantTest(),
   ];
   @override
   Widget build(BuildContext context) {

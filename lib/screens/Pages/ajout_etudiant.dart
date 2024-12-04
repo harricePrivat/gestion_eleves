@@ -4,12 +4,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gestion_etudiant/screens/Components/input_widget.dart';
 import 'package:gestion_etudiant/screens/Components/loading.dart';
+import 'package:gestion_etudiant/screens/Components/pick_images.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import '../Components/select.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../Components/input_naissance.dart';
-import 'dart:io';
 
 class AjoutEtudiant extends StatefulWidget {
   const AjoutEtudiant({super.key});
@@ -20,14 +19,17 @@ class AjoutEtudiant extends StatefulWidget {
 
 class _AjoutEtudiantState extends State<AjoutEtudiant> {
   String niveau = '';
+  String anneeBacc = '';
   bool loading = false;
   DateTime? dateTime;
   TextEditingController nom = TextEditingController();
   TextEditingController prenom = TextEditingController();
   TextEditingController numCin = TextEditingController();
 
-  final ImagePicker _picker = ImagePicker();
-  XFile? _image;
+  XFile? _imageStudent;
+  XFile? _imageNote;
+  XFile? _imageCIN;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
@@ -63,6 +65,7 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                       input("Prénom: *", "ex: Brice Privat ", prenom, false),
                       espacement(),
                       SingleDatePicker(
+                        dateTime: dateTime,
                         dateChanged: (value) {
                           setState(() {
                             dateTime = value!;
@@ -74,9 +77,31 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                           true),
                       espacement(),
                       InputSelect(
+                        label: 'Niveau *:',
+                        itemSelects: const {
+                          'l1': 'L1',
+                          'l2': 'L2',
+                          'l3': 'L3',
+                          'm1': 'M1',
+                          'm2': 'M2',
+                        },
                         getValueSelect: (value) {
                           setState(() {
                             niveau = value!;
+                          });
+                        },
+                      ),
+                      espacement(),
+                      InputSelect(
+                        label: 'Année du Bacc: *',
+                        itemSelects: const {
+                          '2022': '2022',
+                          '2023': '2023',
+                          '2024': '2024',
+                        },
+                        getValueSelect: (value) {
+                          setState(() {
+                            anneeBacc = value!;
                           });
                         },
                       ),
@@ -88,84 +113,51 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                       const SizedBox(
                         height: 4,
                       ),
-                      GestureDetector(
-                        onTap: () async {
-                          await _pickImage(ImageSource.gallery);
+                      PickImages(
+                        images: _imageStudent,
+                        name: "Photo de l'étudiant(Obligatoire)",
+                        //     images: _image,
+                        onPicked: () async {
+                          final ImagePicker picker = ImagePicker();
+                          _imageStudent = await picker.pickImage(
+                              source: ImageSource.camera);
+                          setState(() {}); // Force la reconstruction du widget.
                         },
-                        child: Container(
-                          // width: 200,
-                          //  / height: 25,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8)),
-                              color: const Color.fromARGB(255, 220, 220, 220),
-                              border:
-                                  Border.all(width: 0.001, color: Colors.grey)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.add),
-                              Text(
-                                "Ajouter une photo (Obligatoire)",
-                                style: theme.titleMedium,
-                              )
-                            ],
-                          ),
-                        ),
                       ),
-                      //  espacement(),
-                      _image == null
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.error_outline,
-                                    color: Colors.red,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Aucune photo selectionée",
-                                    style: GoogleFonts.lato(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14),
-                                  ),
-                                ],
-                              ))
-                          : Padding(
-                              padding: const EdgeInsets.all(16.00),
-                              child: Stack(
-                                children: [
-                                  Image.file(File(_image!.path)),
-                                  Positioned(
-                                      child: IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              _image = null;
-                                            });
-                                          },
-                                          icon: const Icon(
-                                            Icons.close,
-                                            color: Colors.red,
-                                          )))
-                                ],
-                              )),
+                      espacement(),
+                      PickImages(
+                        images: _imageCIN,
+                        name: "Photo de la CIN(Obligatoire)",
+                        onPicked: () async {
+                          final ImagePicker picker = ImagePicker();
+                          _imageCIN = await picker.pickImage(
+                              source: ImageSource.camera);
+                          setState(() {}); // Force la reconstruction du widget.
+                        },
+                      ),
+                      espacement(),
+                      PickImages(
+                        images: _imageNote,
+                        name: "Photo de la relevet des notes(Obligatoire)",
+                        onPicked: () async {
+                          final picker = ImagePicker();
+                          _imageNote = await picker.pickImage(
+                              source: ImageSource.camera);
+                          setState(() {}); // Force la reconstruction du widget.
+                        },
+                      ),
                       espacement(),
                       ShadButton(
                         onPressed: () async {
-                          // setState(() {
-                          //   loading = true;
-                          // });
+                          setState(() {
+                            loading = true;
+                          });
                           numCin.text.compareTo('') == 0
                               ? numCin.text = 'no'
                               : {};
-                          if (_image != null &&
+                          if (_imageStudent != null &&
+                              _imageCIN != null &&
+                              _imageNote != null &&
                               niveau.compareTo('') != 0 &&
                               dateTime != null &&
                               nom.text.compareTo('') != 0 &&
@@ -175,12 +167,18 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                               "prenom": prenom.text.trim(),
                               "naissance": dateTime.toString(),
                               'cin': numCin.text.trim(),
+                              'anneeBacc': anneeBacc,
                               "niveau": niveau,
-                              "image": await MultipartFile.fromFile(
-                                  _image!.path,
-                                  filename: _image!.name)
+                              "image_student": await MultipartFile.fromFile(
+                                  _imageStudent!.path,
+                                  filename: _imageStudent!.name),
+                              "image_note": await MultipartFile.fromFile(
+                                  _imageNote!.path,
+                                  filename: _imageNote!.name),
+                              "image_cin": await MultipartFile.fromFile(
+                                  _imageCIN!.path,
+                                  filename: _imageCIN!.name),
                             });
-
                             final response = await Dio().post(
                                 "${dotenv.env['URL']}/create-user",
                                 data: formData);
@@ -188,16 +186,18 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                               nom.clear();
                               prenom.clear();
                               numCin.clear();
-                              _image = null;
-                              // setState(() {
-                              //   loading = false;
-                              // });
+                              _imageStudent = null;
+                              _imageCIN = null;
+                              _imageNote = null;
+                              setState(() {
+                                loading = false;
+                              });
                               Fluttertoast.showToast(
                                   msg: "Etudiant bien ajouter");
                             } else {
-                              // setState(() {
-                              //   loading = false;
-                              // });
+                              setState(() {
+                                loading = false;
+                              });
                               Fluttertoast.showToast(
                                   msg:
                                       "Etudiant NON ajouter,erreur de connexion");
@@ -206,9 +206,9 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
                             Fluttertoast.showToast(
                                 msg: "Veuillez remplir tous les champs");
                           }
-                          // setState(() {
-                          //   loading = false;
-                          // });
+                          setState(() {
+                            loading = false;
+                          });
                         },
                         decoration: const ShadDecoration(
                             gradient: LinearGradient(colors: <Color>[
@@ -259,12 +259,5 @@ class _AjoutEtudiantState extends State<AjoutEtudiant> {
             controller: control),
       ],
     );
-  }
-
-  Future<void> _pickImage(ImageSource source) async {
-    final XFile? selectedImage = await _picker.pickImage(source: source);
-    setState(() {
-      _image = selectedImage;
-    });
   }
 }

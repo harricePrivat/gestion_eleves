@@ -98,7 +98,7 @@ class _ListEtudiantState extends State<ListEtudiant> {
                             nom: recherche[i]['nom'],
                             prenom: recherche[i]['prenom'],
                             niveau: recherche[i]['niveau'],
-                            pathImages: recherche[i]['path_images'],
+                            pathImages: recherche[i]['path_images_student'],
                           );
                         },
                       )

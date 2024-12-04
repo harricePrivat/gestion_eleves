@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-final fruits = {
-  'l1': 'L1',
-  'l2': 'L2',
-  'l3': 'L3',
-  'm1': 'M1',
-  'm2': 'M2',
-};
+// final fruits = {
+//   'l1': 'L1',
+//   'l2': 'L2',
+//   'l3': 'L3',
+//   'm1': 'M1',
+//   'm2': 'M2',
+// };
 
 // ignore: must_be_immutable
 class InputSelect extends StatelessWidget {
   ValueChanged<String?>? getValueSelect;
-  InputSelect({super.key, this.getValueSelect});
+  String label;
+  Map<String, String> itemSelects;
+  InputSelect({super.key,required this.label, required this.itemSelects, this.getValueSelect});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class InputSelect extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Niveau: *",
+          label,
           style: theme.displayMedium,
         ),
         const SizedBox(
@@ -45,11 +47,11 @@ class InputSelect extends StatelessWidget {
               style: theme.displayMedium,
             ),
             options: [
-              ...fruits.entries
+              ...itemSelects.entries
                   .map((e) => ShadOption(value: e.key, child: Text(e.value))),
             ],
             selectedOptionBuilder: (context, value) => Text(
-              fruits[value]!,
+              itemSelects[value]!,
               style: theme.displayMedium,
             ),
             onChanged: getValueSelect,
