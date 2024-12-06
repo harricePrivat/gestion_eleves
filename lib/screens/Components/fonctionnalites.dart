@@ -15,8 +15,7 @@ class _FonctionnalitesState extends State<Fonctionnalites> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return Expanded(
-        child: Padding(
+    return Padding(
       padding: const EdgeInsets.all(16.00),
       child: Container(
         decoration: BoxDecoration(
@@ -52,6 +51,6 @@ class _FonctionnalitesState extends State<Fonctionnalites> {
               ],
             )),
       ),
-    ));
+    );
   }
 }

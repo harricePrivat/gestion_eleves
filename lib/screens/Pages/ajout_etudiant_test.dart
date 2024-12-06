@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gestion_etudiant/bloc/addStudent/add_student_bloc.dart';
 import 'package:gestion_etudiant/screens/Components/loading.dart';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 class AjoutEtudiantTest extends StatefulWidget {
@@ -13,6 +14,9 @@ class AjoutEtudiantTest extends StatefulWidget {
 }
 
 class _AjoutEtudiantTestState extends State<AjoutEtudiantTest> {
+  late InputImage inputImage;
+  var options = FaceDetectorOptions();
+// final faceDetector = FaceDetector(options: options);
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;

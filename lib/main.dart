@@ -2,23 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gestion_etudiant/bloc/addStudent/add_student_bloc.dart';
 import 'package:gestion_etudiant/bloc/fetch/fectch_bloc.dart';
+import 'package:gestion_etudiant/provider/embedding_face.dart';
 import 'package:gestion_etudiant/screens/theme.dart';
+import 'package:provider/provider.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'screens/Pages/accueil.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() {
   dotenv.load(fileName: '.env');
-  runApp(MultiBlocProvider(
+  runApp(MultiProvider(
     providers: [
-      BlocProvider(
-        create: (context) => AddStudentBloc(),
-      ),
-      BlocProvider(
-        create: (context) => FectchBloc(),
-      )
+      ChangeNotifierProvider(create: (context)=> EmbeddingFace())
     ],
-    child: const MyApp(),
+    child: MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AddStudentBloc(),
+        ),
+        BlocProvider(
+          create: (context) => FectchBloc(),
+        )
+      ],
+      child: const MyApp(),
+    ),
   ));
 }
 
